@@ -3,8 +3,74 @@
 #include <ctype.h>
 #include <string.h>
 
+typedef enum {
+    TK_IDENTIFIER,
+    TK_INT,
+    TK_FLOAT,
+    TK_CHAR,
+    TK_DOUBLE,
+    TK_STRUCT,
+    TK_PLUS,
+    TK_MINUS,
+    TK_MULTIPLY,
+    TK_DIVIDE,
+    TK_MODULO,
+    TK_ASSIGN,
+    TK_EQUAL,
+    TK_NOT_EQUAL,
+    TK_LESS,
+    TK_LESS_EQUAL,
+    TK_GREATER,
+    TK_GREATER_EQUAL,
+    TK_PLUS_PLUS,
+    TK_PLUS_EQUAL,
+    TK_MINUS_MINUS,
+    TK_MINUS_EQUAL,
+    TK_MULTIPLY_EQUAL,
+    TK_DIVIDE_EQUAL,
+    TK_MODULO_EQUAL,
+    TK_STRUCT_ARROW,
+    TK_LOGICAL_AND,
+    TK_LOGICAL_OR,
+    TK_BITWISE_AND,
+    TK_BITWISE_OR,
+    TK_BITWISE_XOR,
+    TK_BITWISE_NOT,
+    TK_BITWISE_LSHIFT,
+    TK_BITWISE_RSHIFT,
+    TK_BITWISE_AND_EQUAL,
+    TK_BITWISE_OR_EQUAL,
+    TK_BITWISE_XOR_EQUAL,
+    TK_RETURN,
+    TK_IF,
+    TK_ELSE,
+    TK_WHILE,
+    TK_DO,
+    TK_FOR,
+    TK_TYPEDEF,
+    TK_SWITCH,
+    TK_CASE,
+    TK_CONTINUE,
+    TK_BREAK,
+    TK_DEFAULT,
+    TK_VOID,
+    TK_LBRACKET,
+    TK_RBRACKET,
+    TK_LPAREN,
+    TK_RPAREN,
+    TK_LBRACE,
+    TK_RBRACE,
+    TK_DOT,
+    TK_TWO_DOT,
+    TK_SEMICOLON,
+    TK_COMMA,
+    TK_TILDE,
+    TK_EOF
+} TokenT;
+
 typedef struct
 {
+    TokenT Token;
     char type[30];
     char lexeme[50];
     int line;
@@ -14,9 +80,9 @@ typedef struct
 Token getNextToken(FILE *inputFile, int *line, int *column)
 {
     Token token;
-    
+    memset(token.lexeme, 0, sizeof(token.lexeme));
+    memset(token.type, 0, sizeof(token.type));
     char c = fgetc(inputFile);
-
     while (isspace(c) || c == '\n')
     {
         if (c == '\n')
@@ -30,7 +96,6 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
             c = getc(inputFile);
         }
     }
-
     token.line = *line;
     token.column = *column;
     token.lexeme[0] = c;
@@ -79,6 +144,11 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
             *column = (*column) + 1;
             strcpy(token.type, "TK_STRUCT");
         }
+        else if (strncmp(token.lexeme, "typedef", strlen(token.lexeme)) == 0)
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_TYPEDEF");
+        }
         else if (strncmp(token.lexeme, "while", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
@@ -114,10 +184,30 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
             *column = (*column) + 1;
             strcpy(token.type, "TK_CASE");
         }
+        else if (strncmp(token.lexeme, "continue", strlen(token.lexeme)) == 0)
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_CONTINUE");
+        }
+        else if (strncmp(token.lexeme, "break", strlen(token.lexeme)) == 0)
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_BREAK");
+        }
         else if (strncmp(token.lexeme, "default", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_DEFAULT");
+        }
+        else if (strncmp(token.lexeme, "void", strlen(token.lexeme)) == 0)
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_VOID");
+        }
+        else if (strncmp(token.lexeme, "return", strlen(token.lexeme)) == 0)
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_RETURN");
         }
         else
         {
@@ -145,32 +235,98 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
             ungetc(c, inputFile);
         }
         *column = (*column) + 1;
-        strcpy(token.type, "TK_NUMBER");
+        strcpy(token.type, "TK_INT");
     }
     else if (c == '+')
     {
-        *column = (*column) + 1;
-        strcpy(token.type, "TK_PLUS");
+        c = getc(inputFile);
+        if (c == '+')
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_PLUS");
+            token.lexeme[1] = c;
+        }
+        else if (c == '=')
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_PLUS_EQUAL");
+            token.lexeme[1] = c;
+        }
+        else
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_PLUS_PLUS");
+            ungetc(c, inputFile);
+        }  
     }
     else if (c == '-')
     {
-        *column = (*column) + 1;
-        strcpy(token.type, "TK_MINUS");
+        c = getc(inputFile);
+        if (c == '-')
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_MINUS_MINUS");
+            token.lexeme[1] = c;
+        }else if (c == '=')
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_MINUS_EQUAL");
+            token.lexeme[1] = c;
+        }
+        else
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_MINUS");
+            ungetc(c, inputFile);
+        } 
     }
     else if (c == '*')
     {
-        *column = (*column) + 1;
-        strcpy(token.type, "TK_MULTIPLY");
+        c = getc(inputFile);
+        if (c == '=')
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_MULTIPLY_EQUAL");
+            token.lexeme[1] = c;
+        }
+        else
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_MULTIPLY");
+            ungetc(c, inputFile);
+        } 
     }
     else if (c == '/')
     {
-        *column = (*column) + 1;
-        strcpy(token.type, "TK_DIVIDE");
+        c = getc(inputFile);
+        if (c == '=')
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_DIVIDE_EQUAL");
+            token.lexeme[1] = c;
+        }
+        else
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_DIVIDE");
+            ungetc(c, inputFile);
+        } 
     }
     else if (c == '%')
     {
-        *column = (*column) + 1;
-        strcpy(token.type, "TK_MODULO");
+        c = getc(inputFile);
+        if (c == '=')
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_MODULO_EQUAL");
+            token.lexeme[1] = c;
+        }
+        else
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_MODULO");
+            ungetc(c, inputFile);
+        } 
     }
     else if (c == '=')
     {
@@ -180,6 +336,12 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
             *column = (*column) + 1;
             strcpy(token.type, "TK_EQUAL");
             token.lexeme[1] = c;
+        }
+        else if (c == '>')
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_STRUCT_ARROW");
+            token.lexeme[1] = '>';
         }
         else
         {
@@ -194,19 +356,19 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         if (c == '=')
         {
             *column = (*column) + 1;
-            strcpy(token.type, "TK_LESS_THAN_EQUAL");
+            strcpy(token.type, "TK_LESS_EQUAL");
             token.lexeme[1] = '=';
         }
         else if (c == '<')
         {
             *column = (*column) + 1;
-            strcpy(token.type, "TK_BITWISE_LEFT_SHIFT");
+            strcpy(token.type, "TK_BITWISE_LSHIFT");
             token.lexeme[1] = '<';
         }
         else
         {
             *column = (*column) + 1;
-            strcpy(token.type, "TK_LESS_THAN");
+            strcpy(token.type, "TK_LESS");
             ungetc(c, inputFile);
         }
     }
@@ -216,19 +378,19 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         if (c == '=')
         {
             *column = (*column) + 1;
-            strcpy(token.type, "TK_GREATER_THAN_EQUAL");
+            strcpy(token.type, "TK_GREATER_EQUAL");
             token.lexeme[1] = '=';
         }
         else if (c == '>')
         {
             *column = (*column) + 1;
-            strcpy(token.type, "TK_BITWISE_RIGHT_SHIFT");
+            strcpy(token.type, "TK_BITWISE_RSHIFT");
             token.lexeme[1] = '>';
         }
         else
         {
             *column = (*column) + 1;
-            strcpy(token.type, "TK_GREATER_THAN");
+            strcpy(token.type, "TK_GREATER");
             ungetc(c, inputFile);
         }
     }
@@ -256,8 +418,13 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
             strcpy(token.type, "TK_LOGICAL_AND");
             token.lexeme[1] = c;
         }
-        else
+        else if (c == '=')
         {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_BITWISE_AND_EQUAL");
+            token.lexeme[1] = c;
+        }
+        else {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BITWISE_AND");
             ungetc(c, inputFile);
@@ -272,6 +439,12 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
             strcpy(token.type, "TK_LOGICAL_OR");
             token.lexeme[1] = c;
         }
+        else if (c == '=')
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_BITWISE_OR_EQUAL");
+            token.lexeme[1] = c;
+        }
         else
         {
             *column = (*column) + 1;
@@ -281,8 +454,20 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
     }
     else if (c == '^')
     {
-        *column = (*column) + 1;
-        strcpy(token.type, "TK_BITWISE_XOR");
+         c = getc(inputFile);
+        if (c == '=')
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_BITWISE_XOR_EQUAL");
+            token.lexeme[1] = c;
+        }
+        else
+        {
+            *column = (*column) + 1;
+            strcpy(token.type, "TK_BITWISE_XOR");
+            ungetc(c, inputFile);
+        }
+        
     }
     else if (c == '(')
     {
@@ -322,7 +507,7 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
     else if (c == '~')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_~");
+        strcpy(token.type, "TK_TILDE");
     }
     else if (c == '.')
     {
@@ -332,7 +517,7 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
     else if (c == ':')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_DOUBLE_DOT");
+        strcpy(token.type, "TK_TWO_DOT");
     }
     else if (c == ',')
     {
@@ -357,6 +542,136 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
     return token;
 }
 
+const char* getTokenName(TokenT Token) {
+    switch (Token) {
+        case TK_IDENTIFIER:
+            return "Identifier";
+        case TK_INT:
+            return "Int";
+        case TK_FLOAT:
+            return "Float";
+        case TK_CHAR:
+            return "Char";
+        case TK_DOUBLE:
+            return "Double";
+        case TK_STRUCT:
+            return "Struct";
+        case TK_TYPEDEF:
+            return "Typedef";
+        case TK_LBRACKET:
+            return "Left Bracket";
+        case TK_RBRACKET:
+            return "Right Bracket";
+        case TK_PLUS:
+            return "Plus";
+        case TK_MINUS:
+            return "Minus";
+        case TK_MULTIPLY:
+            return "Multiply";
+        case TK_DIVIDE:
+            return "Divide";
+        case TK_MODULO:
+            return "Modulo";
+        case TK_BITWISE_AND:
+            return "Bitwise AND";
+        case TK_BITWISE_LSHIFT:
+            return "Bitwise Left Shift";
+        case TK_BITWISE_RSHIFT:
+            return "Bitwise Right Shift";
+        case TK_BITWISE_NOT:
+            return "Bitwise NOT";
+        case TK_BITWISE_AND_EQUAL:
+            return "Bitwise AND Equal";
+        case TK_BITWISE_OR:
+            return "Bitwise OR";
+        case TK_BITWISE_OR_EQUAL:
+            return "Bitwise OR Equal";
+        case TK_BITWISE_XOR:
+            return "Bitwise XOR";
+        case TK_BITWISE_XOR_EQUAL:
+            return "Bitwise XOR Equal";
+        case TK_LESS:
+            return "Less Than";
+        case TK_LESS_EQUAL:
+            return "Less Than or Equal";
+        case TK_GREATER:
+            return "Greater Than";
+        case TK_GREATER_EQUAL:
+            return "Greater Than or Equal";
+        case TK_EQUAL:
+            return "Equal";
+        case TK_NOT_EQUAL:
+            return "Not Equal";
+        case TK_ASSIGN:
+            return "ASSIGN";
+        case TK_LOGICAL_AND:
+            return "Logical AND";
+        case TK_LOGICAL_OR:
+            return "Logical OR";
+        case TK_WHILE:
+            return "While";
+        case TK_DO:
+            return "Do";
+        case TK_FOR:
+            return "For";
+        case TK_IF:
+            return "If";
+        case TK_ELSE:
+            return "Else";
+        case TK_SWITCH:
+            return "Switch";
+        case TK_CASE:
+            return "Case";
+        case TK_BREAK:
+            return "Break";
+        case TK_CONTINUE:
+            return "Continue";
+        case TK_DEFAULT:
+            return "Default";
+        case TK_VOID:
+            return "Void";
+        case TK_RETURN:
+            return "Return";
+        case TK_EOF:
+            return "End of File";
+        case TK_PLUS_PLUS:
+            return "Plus Plus";
+        case TK_PLUS_EQUAL:
+            return "Plus Equal";
+        case TK_MINUS_MINUS:
+            return "Minus Minus";
+        case TK_MINUS_EQUAL:
+            return "Minus Equal";
+        case TK_STRUCT_ARROW:
+            return "Struct Arrow";
+        case TK_MULTIPLY_EQUAL:
+            return "Multiply Equal";
+        case TK_DIVIDE_EQUAL:
+            return "Divide Equal";
+        case TK_MODULO_EQUAL:
+            return "Modulo Equal";
+        case TK_LPAREN:
+            return "Left Parenthesis";
+        case TK_RPAREN:
+            return "Right Parenthesis";
+        case TK_LBRACE:
+            return "Left Brace";
+        case TK_RBRACE:
+            return "Right Brace";
+        case TK_COMMA:
+            return "Comma";
+        case TK_SEMICOLON:
+            return "Semicolon";
+        case TK_DOT:
+            return "Dot";
+        case TK_TWO_DOT:
+            return "Two Dots";
+        case TK_TILDE:
+            return "Tilde";
+    }
+    return "Unknown";
+}
+
 int main()
 {
     FILE *inputFile = fopen("input.txt", "r");
@@ -371,13 +686,16 @@ int main()
 
     int lineCount = 1, columnCount = 1;
     int tokenCount = 0;
-    printf("| Linha \t | Coluna: \t | Lexeme: \t | Token \t |\n");
-    fprintf(outputFile, "| Linha \t | Coluna: \t | Lexeme: \t | Token \t |\n");
+    printf("| Linha          | Coluna        | Lexeme        | Token\n");
+    printf("|----------------|---------------|---------------|-----------------\n");
+    fprintf(outputFile,"| Linha          | Coluna        | Lexeme        | Token\n");
+    fprintf(outputFile,"|----------------|---------------|---------------|-----------------\n");
+
     do
     {
         token = getNextToken(inputFile, &lineCount, &columnCount);
-        printf("| %d \t\t | %d \t\t | %s \t\t | %s \t \n", token.line, token.column, token.lexeme, token.type);
-        fprintf(outputFile, "| %d \t\t | %d \t\t | %s \t\t| %s \t \n", token.line, token.column, token.lexeme, token.type);
+        printf("| %-14d | %-13d | %-13s | %s\n", token.line, token.column, token.lexeme, token.type);
+        fprintf(outputFile, "| %-14d | %-13d | %-13s | %s\n", token.line, token.column, token.lexeme, token.type);
         tokenCount++;
     } while (strcmp(token.type, "TK_EOF") != 0);
 

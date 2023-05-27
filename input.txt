@@ -12,4 +12,4 @@ x.y->z
 while (a) for (a;a;a) 
 do {a;} while (a);
 if (a) a; else a;
-switch(a){case 3:a;default:a;} 
+switch(a){case 3:a;default:a;}
