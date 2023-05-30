@@ -66,11 +66,11 @@ typedef enum {
     TK_COMMA,
     TK_TILDE,
     TK_EOF
-} TokenT;
+} TokenN;
 
 typedef struct
 {
-    TokenT Token;
+    TokenN Token;
     char type[30];
     char lexeme[50];
     int line;
@@ -341,7 +341,7 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_STRUCT_ARROW");
-            token.lexeme[1] = '>';
+            token.lexeme[1] = c;
         }
         else
         {
@@ -357,13 +357,13 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_LESS_EQUAL");
-            token.lexeme[1] = '=';
+            token.lexeme[1] = c;
         }
         else if (c == '<')
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BITWISE_LSHIFT");
-            token.lexeme[1] = '<';
+            token.lexeme[1] = c;
         }
         else
         {
@@ -379,13 +379,13 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_GREATER_EQUAL");
-            token.lexeme[1] = '=';
+            token.lexeme[1] = c;
         }
         else if (c == '>')
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BITWISE_RSHIFT");
-            token.lexeme[1] = '>';
+            token.lexeme[1] = c;
         }
         else
         {
@@ -401,6 +401,7 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_NOT_EQUAL");
+            token.lexeme[1] = c;
         }
         else
         {
@@ -542,7 +543,7 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
     return token;
 }
 
-const char* getTokenName(TokenT Token) {
+const char* getTokenName(TokenN Token) {
     switch (Token) {
         case TK_IDENTIFIER:
             return "Identifier";
@@ -699,7 +700,13 @@ int main()
         tokenCount++;
     } while (strcmp(token.type, "TK_EOF") != 0);
 
-    printf("Total tokens: %d\n", tokenCount);
+    printf("|----------------|---------------|---------------|-----------------\n");
+    printf("|Total tokens:   | %-13d |               |\n", tokenCount);
+    printf("|----------------|---------------|               |\n");
+    
+    fprintf(outputFile,"|----------------|---------------|---------------|-----------------\n");
+    fprintf(outputFile,"|Total tokens:   | %-13d |               |\n", tokenCount);
+    fprintf(outputFile,"|----------------|---------------|               |\n");
 
     fclose(inputFile);
     fclose(outputFile);

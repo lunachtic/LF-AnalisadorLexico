@@ -32,7 +32,7 @@
 | 7              | 3             | >=            | TK_GREATER_EQUAL
 | 7              | 4             | <=            | TK_LESS_EQUAL
 | 7              | 5             | ==            | TK_EQUAL
-| 7              | 6             | !             | TK_NOT_EQUAL
+| 7              | 6             | !=            | TK_NOT_EQUAL
 | 8              | 1             | &&            | TK_LOGICAL_AND
 | 8              | 2             | ||            | TK_LOGICAL_OR
 | 8              | 3             | !             | TK_BITWISE_NOT
@@ -96,3 +96,6 @@
 | 15             | 14            | ;             | TK_SEMICOLON
 | 15             | 15            | }             | TK_RBRACE
 | 15             | 16            | |n            | TK_EOF
+|----------------|---------------|---------------|-----------------
+|Total tokens:   | 96            |               |
+|----------------|---------------|               |
