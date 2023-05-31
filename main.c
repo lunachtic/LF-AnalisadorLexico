@@ -123,96 +123,115 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_INT");
+            token.Token=TK_INT;
         }
         else if (strncmp(token.lexeme, "float", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_FLOAT");
+            token.Token=TK_FLOAT;
         }
         else if (strncmp(token.lexeme, "char", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_CHAR");
+            token.Token=TK_CHAR;
         }
         else if (strncmp(token.lexeme, "double", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_DOUBLE");
+            token.Token=TK_DOUBLE;
         }
         else if (strncmp(token.lexeme, "struct", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_STRUCT");
+            token.Token=TK_STRUCT;
         }
         else if (strncmp(token.lexeme, "typedef", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_TYPEDEF");
+            token.Token=TK_TYPEDEF;
         }
         else if (strncmp(token.lexeme, "while", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_WHILE");
+            token.Token=TK_WHILE;
         }
         else if (strncmp(token.lexeme, "do", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_DO");
+            token.Token=TK_DO;
         }
         else if (strncmp(token.lexeme, "for", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_FOR");
+            token.Token=TK_FOR;
         }
         else if (strncmp(token.lexeme, "if", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_IF");
+            token.Token=TK_IF;
         }
         else if (strncmp(token.lexeme, "else", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_ELSE");
+            token.Token=TK_ELSE;
         }
         else if (strncmp(token.lexeme, "switch", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_SWITCH");
+            token.Token=TK_SWITCH;
         }
         else if (strncmp(token.lexeme, "case", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_CASE");
+            token.Token=TK_CASE;
         }
         else if (strncmp(token.lexeme, "continue", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_CONTINUE");
+            token.Token=TK_CONTINUE;
         }
         else if (strncmp(token.lexeme, "break", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BREAK");
+            token.Token=TK_BREAK;
         }
         else if (strncmp(token.lexeme, "default", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_DEFAULT");
+            token.Token=TK_DEFAULT;
         }
         else if (strncmp(token.lexeme, "void", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_VOID");
+            token.Token=TK_VOID;
         }
         else if (strncmp(token.lexeme, "return", strlen(token.lexeme)) == 0)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_RETURN");
+            token.Token=TK_RETURN;
         }
         else
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_IDENTIFIER");
+            token.Token=TK_IDENTIFIER;
         }
     }
     else if (isdigit(c))
@@ -235,7 +254,9 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
             ungetc(c, inputFile);
         }
         *column = (*column) + 1;
-        strcpy(token.type, "TK_INT");
+        strcpy(token.type, "TK_INT";
+        token.Token=TK_INT;
+        token.Token= ;
     }
     else if (c == '+')
     {
@@ -244,18 +265,21 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_PLUS");
+            token.Token=TK_PLUS;
             token.lexeme[1] = c;
         }
         else if (c == '=')
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_PLUS_EQUAL");
+            token.Token=TK_PLUS_EQUAL;
             token.lexeme[1] = c;
         }
         else
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_PLUS_PLUS");
+            token.Token=TK_PLUS_PLUS;
             ungetc(c, inputFile);
         }  
     }
@@ -266,17 +290,20 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_MINUS_MINUS");
+            token.Token=TK_MINUS_MINUS;
             token.lexeme[1] = c;
         }else if (c == '=')
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_MINUS_EQUAL");
+            token.Token=TK_MINUS_EQUAL;
             token.lexeme[1] = c;
         }
         else
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_MINUS");
+            token.Token=TK_MINUS;
             ungetc(c, inputFile);
         } 
     }
@@ -287,12 +314,14 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_MULTIPLY_EQUAL");
+            token.Token=TK_MULTIPLY_EQUAL;
             token.lexeme[1] = c;
         }
         else
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_MULTIPLY");
+            token.Token=TK_MULTIPLY;
             ungetc(c, inputFile);
         } 
     }
@@ -303,12 +332,14 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_DIVIDE_EQUAL");
+            token.Token=TK_DIVIDE_EQUAL;
             token.lexeme[1] = c;
         }
         else
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_DIVIDE");
+            token.Token=TK_DIVIDE;
             ungetc(c, inputFile);
         } 
     }
@@ -319,12 +350,14 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_MODULO_EQUAL");
+            token.Token=TK_MODULO_EQUAL;
             token.lexeme[1] = c;
         }
         else
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_MODULO");
+            token.Token=TK_MODULO;
             ungetc(c, inputFile);
         } 
     }
@@ -335,18 +368,21 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_EQUAL");
+            token.Token=TK_EQUAL;
             token.lexeme[1] = c;
         }
         else if (c == '>')
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_STRUCT_ARROW");
+            token.Token=TK_STRUCT_ARROW;
             token.lexeme[1] = c;
         }
         else
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_ASSIGN");
+            token.Token=TK_ASSIGN;
             ungetc(c, inputFile);
         }
     }
@@ -357,18 +393,21 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_LESS_EQUAL");
+            token.Token=TK_LESS_EQUAL;
             token.lexeme[1] = c;
         }
         else if (c == '<')
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BITWISE_LSHIFT");
+            token.Token=TK_BITWISE_LSHIFT;
             token.lexeme[1] = c;
         }
         else
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_LESS");
+            token.Token=TK_LESS;
             ungetc(c, inputFile);
         }
     }
@@ -379,18 +418,21 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_GREATER_EQUAL");
+            token.Token=TK_GREATER_EQUAL;
             token.lexeme[1] = c;
         }
         else if (c == '>')
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BITWISE_RSHIFT");
+            token.Token=TK_BITWISE_RSHIFT;
             token.lexeme[1] = c;
         }
         else
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_GREATER");
+            token.Token=TK_GREATER;
             ungetc(c, inputFile);
         }
     }
@@ -401,12 +443,14 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_NOT_EQUAL");
+            token.Token=TK_NOT_EQUAL;
             token.lexeme[1] = c;
         }
         else
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BITWISE_NOT");
+            token.Token=TK_BITWISE_NOT;
             ungetc(c, inputFile);
         }
     }
@@ -417,17 +461,20 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_LOGICAL_AND");
+            token.Token=TK_LOGICAL_AND;
             token.lexeme[1] = c;
         }
         else if (c == '=')
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BITWISE_AND_EQUAL");
+            token.Token=TK_BITWISE_AND_EQUAL;
             token.lexeme[1] = c;
         }
         else {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BITWISE_AND");
+            token.Token=TK_BITWISE_AND;
             ungetc(c, inputFile);
         }
     }
@@ -438,18 +485,21 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_LOGICAL_OR");
+            token.Token=TK_LOGICAL_OR;
             token.lexeme[1] = c;
         }
         else if (c == '=')
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BITWISE_OR_EQUAL");
+            token.Token=TK_BITWISE_OR_EQUAL;
             token.lexeme[1] = c;
         }
         else
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BITWISE_OR");
+            token.Token=TK_BITWISE_OR;
             ungetc(c, inputFile);
         }
     }
@@ -460,12 +510,14 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BITWISE_XOR_EQUAL");
+            token.Token=TK_BITWISE_XOR_EQUAL;
             token.lexeme[1] = c;
         }
         else
         {
             *column = (*column) + 1;
             strcpy(token.type, "TK_BITWISE_XOR");
+             token.Token=TK_BITWISE_XOR;
             ungetc(c, inputFile);
         }
         
@@ -473,62 +525,74 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
     else if (c == '(')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_LPAREN");
+        strcpy(token.type, "TK_LPAREN";
+        token.Token=TK_LPAREN;
     }
     else if (c == ')')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_RPAREN");
+        strcpy(token.type, "TK_RPAREN";
+        token.Token=TK_RPAREN;
     }
     else if (c == '{')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_LBRACE");
+        strcpy(token.type, "TK_LBRACE";
+        token.Token=TK_LBRACE;
     }
     else if (c == '}')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_RBRACE");
+        strcpy(token.type, "TK_RBRACE";
+        token.Token=TK_RBRACE;
     }
     else if (c == '[')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_LBRACKET");
+        strcpy(token.type, "TK_LBRACKET";
+        token.Token=TK_LBRACKET;
     }
     else if (c == ']')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_RBRACKET");
+        strcpy(token.type, "TK_RBRACKET";
+        token.Token=TK_RBRACKET;
     }
     else if (c == ';')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_SEMICOLON");
+        strcpy(token.type, "TK_SEMICOLON";
+        token.Token=TK_SEMICOLON;
     }
     else if (c == '~')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_TILDE");
+        strcpy(token.type, "TK_TILDE";
+        token.Token=TK_TILDE;
     }
     else if (c == '.')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_DOT");
+        strcpy(token.type, "TK_DOT";
+        token.Token=TK_DOT;
     }
     else if (c == ':')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_TWO_DOT");
+        strcpy(token.type, "TK_TWO_DOT";
+        token.Token=TK_TWO_DOT;
     }
     else if (c == ',')
     {
         *column = (*column) + 1;
         strcpy(token.type, "TK_COMMA");
+        token.Token=TK_COMMA;
     }
     else if (c == EOF)
     {
         *column = (*column) + 1;
         strcpy(token.type, "TK_EOF");
+        token.Token=TK_EOF;
         token.lexeme[0]='|';
         token.lexeme[1]='n';
         
@@ -538,7 +602,8 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         // Error handling for unrecognized characters
         printf("Error: Unrecognized character '%c' at line %d, column %d\n", c, *line, *column);
         *column = (*column) + 1;
-        strcpy(token.type, "TK_EOF");
+        strcpy(token.type, "TK_EOF";
+        token.Token= ;
     }
     return token;
 }
