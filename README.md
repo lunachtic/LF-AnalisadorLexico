@@ -33,4 +33,6 @@ O subconjunto da linguagem C que deverá ser reconhecido é composto de:
         deve exibir na tela e gerar um arquivo de saída com a lista de tokens reconhecidos (identificados por um nome),
         bem como a linha, coluna e o lexema associado.
 
-Da implementação devem ser entregues os arquivos-fonte e um executável do programa, com um arquivo texto descrevendo sua utilização.
+## Utilização:
+
+O arquivo main.c faz a leitura do arquivo texto input.txt e retorna os lexemas o token vinculado, junto com a linha e coluna que este aparece, no arquivo output.txt, lexemas e estruturas fora do que foi definido anteriormente resultarão em um erro na execucão do probrama.

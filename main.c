@@ -254,9 +254,8 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
             ungetc(c, inputFile);
         }
         *column = (*column) + 1;
-        strcpy(token.type, "TK_INT";
+        strcpy(token.type, "TK_INT");
         token.Token=TK_INT;
-        token.Token= ;
     }
     else if (c == '+')
     {
@@ -525,61 +524,61 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
     else if (c == '(')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_LPAREN";
+        strcpy(token.type, "TK_LPAREN");
         token.Token=TK_LPAREN;
     }
     else if (c == ')')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_RPAREN";
+        strcpy(token.type, "TK_RPAREN");
         token.Token=TK_RPAREN;
     }
     else if (c == '{')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_LBRACE";
+        strcpy(token.type, "TK_LBRACE");
         token.Token=TK_LBRACE;
     }
     else if (c == '}')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_RBRACE";
+        strcpy(token.type, "TK_RBRACE");
         token.Token=TK_RBRACE;
     }
     else if (c == '[')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_LBRACKET";
+        strcpy(token.type, "TK_LBRACKET");
         token.Token=TK_LBRACKET;
     }
     else if (c == ']')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_RBRACKET";
+        strcpy(token.type, "TK_RBRACKET");
         token.Token=TK_RBRACKET;
     }
     else if (c == ';')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_SEMICOLON";
+        strcpy(token.type, "TK_SEMICOLON");
         token.Token=TK_SEMICOLON;
     }
     else if (c == '~')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_TILDE";
+        strcpy(token.type, "TK_TILDE");
         token.Token=TK_TILDE;
     }
     else if (c == '.')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_DOT";
+        strcpy(token.type, "TK_DOT");
         token.Token=TK_DOT;
     }
     else if (c == ':')
     {
         *column = (*column) + 1;
-        strcpy(token.type, "TK_TWO_DOT";
+        strcpy(token.type, "TK_TWO_DOT");
         token.Token=TK_TWO_DOT;
     }
     else if (c == ',')
@@ -602,8 +601,8 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
         // Error handling for unrecognized characters
         printf("Error: Unrecognized character '%c' at line %d, column %d\n", c, *line, *column);
         *column = (*column) + 1;
-        strcpy(token.type, "TK_EOF";
-        token.Token= ;
+        strcpy(token.type, "TK_EOF");
+        token.Token=TK_EOF;
     }
     return token;
 }
