@@ -11,7 +11,7 @@ Ex:
 | 1     | 1      | tkint            | int    |
 | 1     | 5      | tkid             | main   |
 | 1     | 9      | tkabreparenteses | (      |
-| ...   | ...    | ...              | ...      |
+| ...   | ...    | ...              | ...    |
 
 
 A saída deve ser mostrada também na console.
