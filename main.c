@@ -83,8 +83,7 @@ Token getNextToken(FILE *inputFile, int *line, int *column)
     memset(token.lexeme, 0, sizeof(token.lexeme));
     memset(token.type, 0, sizeof(token.type));
     char c = fgetc(inputFile);
-    while (isspace(c) || c == '\n')
-    {
+    while (isspace(c) || c == '\n'){
         if (c == '\n')
         {
             *line = (*line) + 1;
